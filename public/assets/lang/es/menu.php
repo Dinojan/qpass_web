@@ -1,0 +1,27 @@
+<?php
+
+return array (
+  'dashboard'            => 'Tablero',
+  'profile'              => 'Perfil',
+  'departments'          => 'Departamentos',
+  'designations'         => 'Designaciones',
+  'employees'            => 'Empleados',
+  'visitors'             => 'Visitantes',
+  'pre_registers'        => 'Pre-registros',
+  'attendance'           => 'Asistencia',
+  'report'               => 'Informe',
+  'visitor_report'       => 'Informe de Visitantes',
+  'pre_registers_report' => 'Informe de Pre-registros',
+  'attendance_report'    => 'Informe de Asistencia',
+  'administrators'       => 'Administradores',
+  'role'                 => 'Rol',
+  'settings'             => 'Configuraciones',
+  'language'             => 'Idioma',
+  'users'                => 'Usuarios',
+  'addons'               => 'Complementos',
+  'employee_report'      => 'Informe de Empleados',
+  'operations'           => 'Operaciones',
+  'visitor'              => 'Visitante',
+  'reports'              => 'Informes',
+  'setup'                => 'Configuración',
+);
