@@ -15,7 +15,7 @@ require_once DIR_CORE_LIB.'Request.php';
 require_once DIR_CORE_LIB.'Validator.php';
 require_once DIR_CORE_LIB.'Hash.php';
 
-//  app/Enums
+//  app/Enums as DIR_ENUMS
 require_once DIR_ENUMS.'Activity.php';
 require_once DIR_ENUMS.'Ask.php';
 require_once DIR_ENUMS.'Gender.php';
