@@ -226,5 +226,3 @@ Route::get('terms_and_conditions', [FrontendController::class, 'termsConditions'
 
 // Add this at the very end of index.php
 Route::dispatch();
-// check git
-// done

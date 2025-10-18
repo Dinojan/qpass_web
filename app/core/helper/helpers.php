@@ -391,8 +391,8 @@ if (!function_exists('Session')) {
         static $session = null;
         
         if ($session === null) {
-            if (class_exists('App\Core\Session')) {
-                $session = new App\Core\Session();
+            if (class_exists('App\Core\Lib\Session')) {
+                $session = new App\Core\Lib\Session();
                 $session->start();
             } else {
                 // Fallback if Session class doesn't exist
@@ -401,33 +401,6 @@ if (!function_exists('Session')) {
         }
         
         return $session;
-    }
-}
-
-if (!function_exists('session')) {
-    /**
-     * Get / set session values
-     */
-    function session($key = null, $default = null)
-    {
-        $session = Session();
-        
-        if (!$session) {
-            return $default;
-        }
-
-        if (is_null($key)) {
-            return $session;
-        }
-
-        if (is_array($key)) {
-            foreach ($key as $k => $v) {
-                $session->put($k, $v);
-            }
-            return true;
-        }
-
-        return $session->get($key, $default);
     }
 }
 
@@ -644,13 +617,58 @@ if (!function_exists('app')) {
 
 if (!function_exists('redirect')) {
     /**
-     * Simple redirect helper
+     * Comprehensive redirect helper
      */
     function redirect($to = null, $status = 302, $headers = [])
     {
         if (is_null($to)) {
             return new class {
                 public function to($to, $status = 302, $headers = []) {
+                    $this->sendRedirect($to, $status, $headers);
+                }
+                
+                public function back() {
+                    $referer = $_SERVER['HTTP_REFERER'] ?? '/';
+                    $this->sendRedirect($referer);
+                }
+                
+                public function intended($default = '/') {
+                    $intended = session()->get('url.intended', $default);
+                    session()->forget('url.intended');
+                    $this->sendRedirect($intended);
+                }
+                
+                public function route($name, $parameters = []) {
+                    $url = route($name, $parameters);
+                    $this->sendRedirect($url);
+                }
+                
+                public function with($key, $value = null) {
+                    if (is_array($key)) {
+                        foreach ($key as $k => $v) {
+                            session()->flash($k, $v);
+                        }
+                    } else {
+                        session()->flash($key, $value);
+                    }
+                    return $this;
+                }
+                
+                public function withInput($input = null) {
+                    $input = $input ?: $_POST;
+                    flash_old($input);
+                    return $this;
+                }
+                
+                public function withErrors($errors) {
+                    if (is_string($errors)) {
+                        $errors = ['message' => $errors];
+                    }
+                    set_errors($errors);
+                    return $this;
+                }
+                
+                private function sendRedirect($to, $status = 302, $headers = []) {
                     header('Location: ' . $to, true, $status);
                     foreach ($headers as $header) {
                         header($header);

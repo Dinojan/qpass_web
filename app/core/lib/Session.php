@@ -1,10 +1,23 @@
 <?php
-namespace App\Core;
+namespace App\Core\Lib;
 
 use App\Vonder\Session as SessionInterface;
 
 class Session implements SessionInterface
 {
+    private static $instance;
+
+    /**
+     * Get singleton instance
+     */
+    public static function getInstance()
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
     /**
      * Start the session.
      */
@@ -91,5 +104,35 @@ class Session implements SessionInterface
         $this->start();
         session_regenerate_id(true);
         return $this;
+    }
+
+    /**
+     * Static methods for convenience
+     */
+    public static function set($key, $value)
+    {
+        return self::getInstance()->put($key, $value);
+    }
+
+   
+
+    public static function remove($key)
+    {
+        return self::getInstance()->forget($key);
+    }
+
+    public static function destroy()
+    {
+        return self::getInstance()->flush();
+    }
+
+    public static function id()
+    {
+        return self::getInstance()->getId();
+    }
+
+    public static function regenerateToken()
+    {
+        return self::getInstance()->regenerate();
     }
 }

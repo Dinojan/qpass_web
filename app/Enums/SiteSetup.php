@@ -1,4 +1,5 @@
 <?php
+namespace App\Enums;
 class SiteSetup
 {
     const ENABLE  = 1;

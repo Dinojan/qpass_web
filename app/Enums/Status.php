@@ -1,4 +1,5 @@
 <?php
+namespace App\Enums;
 class Status
 {
     const ACTIVE   = 5;

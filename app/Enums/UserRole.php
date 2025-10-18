@@ -1,4 +1,5 @@
 <?php
+namespace App\Enums;
 class UserRole
 {
     const ADMIN       = 1;

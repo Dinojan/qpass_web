@@ -223,6 +223,46 @@ class Route
     /* -----------------------------------------
      * Action Execution - CORRECTED VERSION
      * --------------------------------------- */
+    // In your Route class, update the executeAction method:
+    // protected static function executeAction($action, $matches)
+    // {
+    //     if (is_callable($action)) {
+    //         return $action(...$matches);
+    //     }
+
+    //     if (is_array($action) && count($action) === 2) {
+    //         [$controllerClass, $methodName] = $action;
+
+    //         if (!class_exists($controllerClass)) {
+    //             throw new \Exception("Controller class not found: {$controllerClass}");
+    //         }
+
+    //         $controllerInstance = new $controllerClass;
+
+    //         if (!method_exists($controllerInstance, $methodName)) {
+    //             throw new \Exception("Method not found: {$controllerClass}::{$methodName}");
+    //         }
+
+    //         // Automatically inject Request object if method expects it
+    //         $reflection = new \ReflectionMethod($controllerInstance, $methodName);
+    //         $parameters = $reflection->getParameters();
+
+    //         $args = [];
+    //         foreach ($parameters as $param) {
+    //             $paramType = $param->getType();
+    //             if ($paramType && $paramType->getName() === 'App\Core\Lib\Request') {
+    //                 $args[] = new \App\Core\Lib\Request();
+    //             } else {
+    //                 // Use route parameters for other arguments
+    //                 $args[] = array_shift($matches) ?? null;
+    //             }
+    //         }
+
+    //         return $controllerInstance->{$methodName}(...$args);
+    //     }
+
+    //     throw new \Exception("Invalid action format. Expected callable or [Controller::class, 'method']");
+    // }
     protected static function executeAction($action, $matches)
     {
         // Handle closures and named functions
@@ -337,14 +377,14 @@ class Route
     }
 
     public static function getRouteByName($name)
-{
-    foreach (self::$routes as $route) {
-        if (isset($route['name']) && $route['name'] === $name) {
-            return $route;
+    {
+        foreach (self::$routes as $route) {
+            if (isset($route['name']) && $route['name'] === $name) {
+                return $route;
+            }
         }
+        return null;
     }
-    return null;
-}
 }
 
 /* --------------------------------------------------

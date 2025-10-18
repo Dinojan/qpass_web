@@ -1,4 +1,5 @@
 <?php
+namespace App\Enums;
 class Activity
 {
     const ENABLE  = 1;
